@@ -1,4 +1,6 @@
-import { Component, createElement } from "react";
+import { CSSProperties, Component, createElement } from "react";
+
+import "../ui/HelloWorld.scss";
 
 interface WrapperProps {
     class: string;
@@ -14,13 +16,19 @@ export interface ContainerProps extends WrapperProps {
 }
 
 export interface ContainerState {
-    backgroundColor: string;
+    backgroundColor?: string;
 }
 
 export default class HelloWorldContainer extends Component<ContainerProps, ContainerState > {
 
+    readonly state = {
+        backgroundColor: undefined
+    };
+
     constructor(props: ContainerProps) {
         super(props);
+
+        // this.handleChange = this.handleChange.bind(this);
     }
 
     render() {
@@ -28,10 +36,21 @@ export default class HelloWorldContainer extends Component<ContainerProps, Conta
         //     <input type="color" class="color-picker"> // select a color
         //     <Input type="text-area" class="content-area"> // apply selected color here
         // </div>
-        return createElement("div", { className: "my-custom-helloworld-widget" },
-            createElement("input", { type: "color", className: "color-picker", onChange: this.onChange }),
-            createElement("textarea", { className: "content-area" })
+
+        return createElement("div",
+            {
+                className: "my-custom-helloworld-widget"
+            },
+            createElement("input", { type: "color", className: "color-picker", onChange: this.handleChange.bind(this) }),
+            createElement("textarea", {
+                className: "content-area",
+                style: { backgroundColor: this.state.backgroundColor } as CSSProperties
+            })
         );
+    }
+
+    private handleChange(event: Event) {
+        this.setState({ backgroundColor: (event.target as HTMLInputElement).value });
     }
 
     public static parseStyle(style = ""): {[key: string]: string} {
