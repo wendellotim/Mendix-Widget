@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.custom.helloworld.HelloWorld" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>HelloWorld</name>
+    <description>My first widget</description>
+    <icon/>
+    <properties>
+        <property key="captionName" type="string">
+            <caption>My name</caption>
+            <category>category</category>
+            <description/>
+        </property>
+    </properties>
+
+</widget>
