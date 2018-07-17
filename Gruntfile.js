@@ -52,7 +52,6 @@ module.exports = function(grunt) {
             },
             mpk: {
                 files: [ {
-                    // dest: "C:/Users/Win 8/Documents/Mendix/FoodApp/widgets",
                     dest: "./dist/MxTestProject/widgets",
                     cwd: "./dist/" + pkg.version + "/",
                     src: [ pkg.widgetName + ".mpk" ],

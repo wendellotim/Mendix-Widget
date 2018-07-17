@@ -9,18 +9,29 @@ interface WrapperProps {
     friendlyId: string;
 }
 
-export interface HelloWorldContainerProps extends WrapperProps {
+export interface ContainerProps extends WrapperProps {
     captionName: string;
 }
 
-export default class HelloWorldContainer extends Component<HelloWorldContainerProps, {}> {
+export interface ContainerState {
+    backgroundColor: string;
+}
 
-    constructor(props: HelloWorldContainerProps) {
+export default class HelloWorldContainer extends Component<ContainerProps, ContainerState > {
+
+    constructor(props: ContainerProps) {
         super(props);
     }
 
     render() {
-        return createElement("div", { className: "my-custom-helloworld-widget" }, this.props.captionName);
+        // <div class="my-custom-helloworld-widget">
+        //     <input type="color" class="color-picker"> // select a color
+        //     <Input type="text-area" class="content-area"> // apply selected color here
+        // </div>
+        return createElement("div", { className: "my-custom-helloworld-widget" },
+            createElement("input", { type: "color", className: "color-picker", onChange: this.onChange }),
+            createElement("textarea", { className: "content-area" })
+        );
     }
 
     public static parseStyle(style = ""): {[key: string]: string} {
