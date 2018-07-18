@@ -13,16 +13,25 @@ interface WrapperProps {
 
 export interface ContainerProps extends WrapperProps {
     captionName: string;
+    messageAttribute: string;
+    colorAttribute: string;
+    mfToExecute?: string;
 }
 
 export interface ContainerState {
-    backgroundColor?: string;
+    colorAttribute?: string;
+    messageAttribute?: string;
 }
 
-export default class HelloWorldContainer extends Component<ContainerProps, ContainerState > {
+export default class HelloWorldContainer extends Component<ContainerProps, ContainerState> {
 
     readonly state = {
-        backgroundColor: undefined
+        colorAttribute: this.props.mxObject
+            ? this.props.mxObject.get(this.props.colorAttribute) as string
+            : undefined,
+        messageAttribute: this.props.mxObject
+            ? this.props.mxObject.get(this.props.messageAttribute) as string
+            : ""
     };
 
     constructor(props: ContainerProps) {
@@ -32,30 +41,35 @@ export default class HelloWorldContainer extends Component<ContainerProps, Conta
     }
 
     render() {
-        // <div class="my-custom-helloworld-widget">
-        //     <input type="color" class="color-picker"> // select a color
-        //     <Input type="text-area" class="content-area"> // apply selected color here
-        // </div>
-
+        const { mxObject } = this.props;
+        // const backgroundColor = mxObject ? mxObject.get(this.props.backgroundColor) : undefined;
+        const message = mxObject ? mxObject.get(this.props.messageAttribute) : "";
         return createElement("div",
             {
                 className: "my-custom-helloworld-widget"
             },
-            createElement("input", { type: "color", className: "color-picker", onChange: this.handleChange.bind(this) }),
+            createElement("input", { type: "color", className: "color-picker", onChange: this.handleChange.bind(this), value: this.state.colorAttribute }),
             createElement("textarea", {
                 className: "content-area",
-                style: { backgroundColor: this.state.backgroundColor } as CSSProperties
-            })
+                style: { backgroundColor: this.state.colorAttribute } as CSSProperties,
+                value: message // check documentation
+            }, message)
+
         );
     }
 
     private handleChange(event: Event) {
-        this.setState({ backgroundColor: (event.target as HTMLInputElement).value });
+        const colorAttribute = (event.target as HTMLInputElement).value;
+        this.setState({ colorAttribute });
+        if (this.props.mxObject) {
+            this.props.mxObject.set(this.props.colorAttribute, colorAttribute);
+        }
+
     }
 
-    public static parseStyle(style = ""): {[key: string]: string} {
+    public static parseStyle(style = ""): { [key: string]: string } {
         try {
-            return style.split(";").reduce<{[key: string]: string}>((styleObject, line) => {
+            return style.split(";").reduce<{ [key: string]: string }>((styleObject, line) => {
                 const pair = line.split(":");
                 if (pair.length === 2) {
                     const name = pair[0].trim().replace(/(-.)/g, match => match[1].toUpperCase());

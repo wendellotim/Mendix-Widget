@@ -9,6 +9,32 @@
             <category>category</category>
             <description/>
         </property>
+
+<!-- key = "colorAttribute" -->
+        <property key="colorAttribute" type="attribute">
+           <caption>Background Color</caption>
+           <category>Appearance</category>
+           <description>The background color of the widget.</description>
+        <attributeTypes>
+           <attributeType name="String"/>
+        </attributeTypes>
+    </property>
+<!-- messageAttribute -->
+    <property key="messageAttribute" type="attribute" required="true" defaultValue="">
+         <caption>Message</caption>
+         <category>Appearance</category>
+         <description>The message visible within the widget.</description>
+    <attributeTypes>
+           <attributeType name="String"/>
+    </attributeTypes>
+    </property>
+
+    <property key="mfToExecute" type="microflow" required="false" defaultValue="">
+        <caption>Microflow</caption>
+        <category>Behavior</category>
+        <description>The microflow to execute on click.</description>
+        <returnType type="Boolean"></returnType>
+    </property>
     </properties>
 
 </widget>
