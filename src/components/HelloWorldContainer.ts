@@ -15,7 +15,15 @@ export interface ContainerProps extends WrapperProps {
     captionName: string;
     messageAttribute: string;
     colorAttribute: string;
-    mfToExecute?: string;
+    callMicroflow?: string;
+    callNanoflow?: Nanoflow;
+}
+
+interface Nanoflow {
+    nanoflow: any[];
+    paramsSpec: {
+        Progress: string;
+    };
 }
 
 export interface ContainerState {
@@ -41,8 +49,8 @@ export default class HelloWorldContainer extends Component<ContainerProps, Conta
     }
 
     render() {
-        const { mxObject } = this.props;
         // const backgroundColor = mxObject ? mxObject.get(this.props.backgroundColor) : undefined;
+        const { mxObject } = this.props;
         const message = mxObject ? mxObject.get(this.props.messageAttribute) : "";
         return createElement("div",
             {
@@ -60,12 +68,42 @@ export default class HelloWorldContainer extends Component<ContainerProps, Conta
 
     private handleChange(event: Event) {
         const colorAttribute = (event.target as HTMLInputElement).value;
+        const { mxform, callMicroflow, callNanoflow } = this.props;
         this.setState({ colorAttribute });
+
         if (this.props.mxObject) {
             this.props.mxObject.set(this.props.colorAttribute, colorAttribute);
         }
+// microflow
+        if (callMicroflow) {
+            mx.data.action({
+            params: {
+                applyto: "None",
+                actionname: callMicroflow
 
-    }
+            },
+            origin: mxform,
+            callback: () => undefined,
+            error: (error) => {
+                mx.ui.error(error.message);
+            }
+            });
+        }
+
+        // nanoflow
+        if (callNanoflow && callNanoflow.nanoflow && this.props.mxObject) {
+            const context = new mendix.lib.MxContext();
+            context.setContext(this.props.mxObject.getEntity(), this.props.mxObject.getGuid());
+
+            mx.data.callNanoflow({
+                nanoflow: callNanoflow,
+                origin: mxform,
+                context,
+                callback: () => undefined,
+                error: (error: Error) => console.log(error) // tslint:disable-line
+            });
+        }
+}
 
     public static parseStyle(style = ""): { [key: string]: string } {
         try {

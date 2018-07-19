@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.custom.helloworld.HelloWorld" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>HelloWorld</name>
-    <description>My first widget</description>
-    <icon/>
-    <properties>
-        <property key="captionName" type="string">
-            <caption>My name</caption>
-            <category>category</category>
-            <description/>
+    <widget id="com.mendix.widget.custom.helloworld.HelloWorld" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
+        <name>HelloWorld</name>
+        <description>My first widget</description>
+        <icon/>
+        <properties>
+            <property key="captionName" type="string">
+                <caption>My name</caption>
+                <category>category</category>
+                <description/>
+            </property>
+
+    <!-- key = "colorAttribute" -->
+            <property key="colorAttribute" type="attribute">
+            <caption>Background Color</caption>
+            <category>Appearance</category>
+            <description>The background color of the widget</description>
+            <attributeTypes>
+            <attributeType name="String"/>
+            </attributeTypes>
         </property>
+    <!-- messageAttribute -->
+            <property key="messageAttribute" type="attribute" required="true" defaultValue="">
+                <caption>Message</caption>
+                <category>Appearance</category>
+                <description>The message visible within the widget</description>
+            <attributeTypes>
+                <attributeType name="String"/>
+            </attributeTypes>
+            </property>
 
-<!-- key = "colorAttribute" -->
-        <property key="colorAttribute" type="attribute">
-           <caption>Background Color</caption>
-           <category>Appearance</category>
-           <description>The background color of the widget.</description>
-        <attributeTypes>
-           <attributeType name="String"/>
-        </attributeTypes>
-    </property>
-<!-- messageAttribute -->
-    <property key="messageAttribute" type="attribute" required="true" defaultValue="">
-         <caption>Message</caption>
-         <category>Appearance</category>
-         <description>The message visible within the widget.</description>
-    <attributeTypes>
-           <attributeType name="String"/>
-    </attributeTypes>
-    </property>
+            <property key="callMicroflow" type="microflow" required="false">
+                <caption>Microflow</caption>
+                <category>Behavior</category>
+                <description>The microflow to execute on click</description>
+                <returnType type="Boolean"></returnType>
+            </property>
 
-    <property key="mfToExecute" type="microflow" required="false" defaultValue="">
-        <caption>Microflow</caption>
-        <category>Behavior</category>
-        <description>The microflow to execute on click.</description>
-        <returnType type="Boolean"></returnType>
-    </property>
-    </properties>
+             <property key="callNanoflow" type="nanoflow" required="false">
+                <caption>Nanoflow</caption>
+                <category>Behavior</category>
+                <description>The Nanoflow to execute on click</description>
+                <returnType type="Boolean"></returnType>
+            </property>
+        </properties>
 
-</widget>
+    </widget>
